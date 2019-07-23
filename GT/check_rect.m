@@ -5,8 +5,8 @@ startNum = 1;
 interval = 1;
 
 out_ext = 'mat';
-in_ext = 'pgm'
-inFolder = 'sample';
+in_ext = 'bmp'
+inFolder = 'video\images';
 outFolder = 'groundtruth';
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
