@@ -20,9 +20,11 @@ start = 0;                     % 시작 프레임 설정
 workingDir = 'video';           % 작업 폴더 이름
 outFolder = 'groundtruth';      % gt정보를 저장할 폴더 이름
 vName = 'sample';               % 프레임을 저장할 이미지 파일 이름
+bName = 'sample';               % gt 찍은 이미지 파일 이름
 ext = 'bpm';                    % 프레임을 저장할 이미지 확장자명                                    
 mkdir(workingDir);              % 작업 폴더 생성
-mkdir(workingDir, 'images');    % 작업폴더 안에 영상 프레임을 저장할 폴더 생성 
+mkdir(workingDir, 'images');    % 작업폴더 안에 영상 프레임을 저장할 폴더 생성
+mkdir(workingDir, 'boxes');     % 작업폴더 안에 gt 찍은 이미지를 저장할 폴더 생성
 interval = 30;                  % 프레임 간격 설정
 time_to_remember = [];          % 영상 시간을 저장할 배열
 
@@ -42,7 +44,7 @@ back = 0;
 
 while hasFrame(shuttleVideo)
     
-    figure(1);
+    fig = figure(1);
     pnt = [];
     line_remember = [];
     plot_remember = [];
@@ -62,8 +64,10 @@ while hasFrame(shuttleVideo)
         ((ii-interval) + start)
         filename = [vName '_' sprintf('%08d',(ii-interval) + start) '.bmp'];
         % 무압축 저장 확장자 : bmp
+        boxname = [vName '_' sprintf('%08d',(ii-interval) + start) '.png'];
+        
         fullname = fullfile(workingDir, 'images', filename);
-    
+        boxname = fullfile(workingDir, 'boxes', boxname);
         imwrite(img, fullname);
         im = imread(fullname);
         [H W] = size(im);
@@ -145,12 +149,11 @@ while hasFrame(shuttleVideo)
         end
         if back == 0
             save([outFolder '\' filename(1:end-length(ext)-1) '.mat'], 'pnt');
-            filename
         else 
             ii = ii - 1;
         end
         clear pnt;
-        
+        saveas(fig, boxname);
     end
     ii = ii+1;
 end
