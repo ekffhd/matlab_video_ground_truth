@@ -15,36 +15,29 @@ close all; clc; clear all;
 
 %%%%%%%%%%%%%%%%%%%%%%%
 
-start = 10;                      % 시작 프레임 설정
+start = 0;                     % 시작 프레임 설정
+% class = 0;                    % (미구현) 0: 사람, 1: 차
 workingDir = 'video';           % 작업 폴더 이름
 outFolder = 'groundtruth';      % gt정보를 저장할 폴더 이름
 vName = 'sample';               % 프레임을 저장할 이미지 파일 이름
-ext = 'bpm';                    % 프레임을 저장할 이미지 확장자명
+ext = 'bpm';                    % 프레임을 저장할 이미지 확장자명                                    
 mkdir(workingDir);              % 작업 폴더 생성
 mkdir(workingDir, 'images');    % 작업폴더 안에 영상 프레임을 저장할 폴더 생성 
-interval = 10;                  % 프레임 간격 설정
+interval = 30;                  % 프레임 간격 설정
 time_to_remember = [];          % 영상 시간을 저장할 배열
 
 %%%%%%%%%%%%%%%%%%%%%%%
 
 shuttleVideo = VideoReader([workingDir '\sample.avi']);
-
+Video = VideoReader([workingDir '\sample.avi']);
 % shuttleVideo = vision.VideoFileReader('sample_video.mov');
-
+                        
 global ii;      % 프레임 인덱스
 global index;   
 
 ii = 1;
-index = 1;
+index = 1;                          
 back = 0;
-
-for i=0:1:start-1
-    ii = ii+interval;
-    figure(1);
-    img = readFrame(shuttleVideo);
-    time_to_remember(i+1) = shuttleVideo.CurrentTime;
-end
-
 
 
 while hasFrame(shuttleVideo)
@@ -53,20 +46,21 @@ while hasFrame(shuttleVideo)
     pnt = [];
     line_remember = [];
     plot_remember = [];
-    
+
+  
     if mod(ii, interval) == 0
+        1 + (ii-interval) + start
         ii
+        img = read(Video,1 + (ii-interval) + start);
         index = ii/interval;
         index
         if back == 0
-            img = readFrame(shuttleVideo);
             time_to_remember(index) = shuttleVideo.CurrentTime;
         else
-             img = readFrame(shuttleVideo);
              back = 0;
         end
-        
-        filename = [vName '_' sprintf('%08d',index) '.bmp'];
+        ((ii-interval) + start)
+        filename = [vName '_' sprintf('%08d',(ii-interval) + start) '.bmp'];
         % 무압축 저장 확장자 : bmp
         fullname = fullfile(workingDir, 'images', filename);
     
