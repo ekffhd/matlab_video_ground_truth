@@ -15,11 +15,11 @@ close all; clc; clear all;
 
 %%%%%%%%%%%%%%%%%%%%%%%
 
-start = 0;                         % 시작 프레임 설정
+start = 150;                         % 시작 프레임 설정
 class = 1;                          % (미구현) 1: 사람, 2: 차
 workingDir = 'video';               % 작업 폴더 이름
 outFolder = 'groundtruth';          % gt정보를 저장할 폴더 이름
-vName = 'sample';                   % 프레임을 저장할 이미지 파일 이름
+vName = 'WRSO';                   % 프레임을 저장할 이미지 파일 이름
 % bName = 'sample';                 % gt 찍은 이미지 파일 이름
 ext = 'bpm';                        % 프레임을 저장할 이미지 확장자명                                    
 mkdir(workingDir);                  % 작업 폴더 생성
@@ -31,7 +31,7 @@ interval = 30;                      % 프레임 간격 설정
 %%%%%%%%%%%%%%%%%%%%%%%
 
 % shuttleVideo = VideoReader([workingDir '\sample.avi']);
-Video = VideoReader([workingDir '\sample.avi']);
+Video = VideoReader([workingDir '\WRSO.mp4']);
 % shuttleVideo = vision.VideoFileReader('sample_video.mov');
                         
 global ii;      % 프레임 인덱스
@@ -53,7 +53,7 @@ while 1
     n = zeros(2, 1);
   
     if mod(ii, interval) == 0
-
+        1 + (ii-interval) + start
         img = read(Video,1 + (ii-interval) + start);
         index = ii/interval;
         back = 0;
